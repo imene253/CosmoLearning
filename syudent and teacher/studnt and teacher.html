@@ -1,0 +1,1406 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	  <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700i" rel="stylesheet">
+
+	<title>stuent and teacher page </title>
+ <style>
+    
+    /* Reset */
+
+*, *:after, *:before {  
+	box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body, html { 
+	font-size: 100%; 
+	padding: 0; 
+	margin: 0;
+}
+
+body {
+     font-family: 'Roboto Condensed', sans-serif;
+    color: #fff;
+    background: rgb(255, 255, 255);
+}
+
+a {
+	color: #ccc;
+	text-decoration: none;
+}
+
+a:hover {
+	color: rgb(255, 255, 255);
+}
+
+/* /Reset */
+
+html, body, 
+.container {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+
+body {
+	 
+	 overflow: hidden;
+}
+
+.splitlayout {
+	position: relative;
+	overflow-x: hidden;
+	min-height: 100%;
+	width: 100%;
+}
+
+/* Intro sides */
+.side {
+	position: fixed;
+	top: 0;
+	z-index: 100;
+	width: 50%;
+	height: 100%;
+	text-align: center;
+	-webkit-backface-visibility: hidden;
+}
+
+.open-left .side,
+.open-right .side {
+	cursor: default;
+}
+
+.overlay {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 499;
+	visibility: hidden;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+}
+
+.side-left .overlay {
+	background: rgb(255, 255, 255);
+}
+
+.side-right .overlay {
+	background: rgb(255, 255, 255);
+}
+
+.side-left {
+	left: 0;
+	background: #a6deff;
+	color: #fff;
+	outline: 1px solid #47a3da; /* avoid gap */
+}
+
+.side-right {
+	right: 0;
+	background: #fff;
+	color: #47a3da;
+	outline: 1px solid #fff; /* avoid gap */
+}
+
+/* Intro content, profile image and name, back button */
+.intro-content {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	padding: 0 1em;
+	width: 50%;
+	cursor: pointer;
+	-webkit-transform: translateY(-50%) translateX(-50%);
+	transform: translateY(-50%) translateX(-50%);
+}
+
+.profile {
+	margin: 0 auto;
+	width: 190px;
+	height: 190px;
+	border-radius: 50%;
+	background: #47a3da;
+    
+}
+
+.profile img {
+	max-width: 100%;
+	border-radius: 50%;
+  
+ 
+    	 
+}
+
+.intro-content h1 > span {
+	display: block;
+	white-space: nowrap;
+}
+
+.intro-content h1 > span:first-child {
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.intro-content h1 > span:nth-child(2) {
+	position: relative;
+	margin-top: 0.5em;
+	padding: 0.8em;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	font-size: 0.8em;
+}
+
+.intro-content h1 > span:nth-child(2):before {
+	position: absolute;
+	top: 0;
+	left: 25%;
+	width: 50%;
+	height: 2px;
+	background: #fff;
+	content: '';
+}
+
+.side-right .intro-content h1 > span:nth-child(2):before {
+	background: #47a3da;
+}
+
+.back {
+	position: fixed;
+	top: 2.6em;
+	z-index: 500;
+	display: block;
+	visibility: hidden;
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	color: #47a3da;
+	text-align: center;
+	font-size: 22px;
+	line-height: 44px;
+	opacity: 0;
+	pointer-events: none;
+}
+
+.mobile-layout .back {
+	position: absolute;
+}
+
+.back-left {
+	left: 12.5%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+}
+
+.back-right {
+	right: 12.5%;
+	-webkit-transform: translateX(50%);
+	transform: translateX(50%);
+	color: #fff;
+}
+
+.open-right .back-left,
+.open-left .back-right {
+	visibility: visible;
+	opacity: 1;
+	-webkit-transition-delay: 0.3s;
+	transition-delay: 0.3s;
+	pointer-events: auto;
+}
+
+.back:hover {
+	color: #ddd;
+}
+
+/* Pages */
+.page {
+	position: relative;
+	top: 0;
+	overflow: auto;
+	min-height: 100%;
+	width: 75%;
+	height: auto;
+	font-size: 1.4em;
+	-webkit-backface-visibility: hidden;
+}
+
+.page-right {
+	left: 25%;
+	outline: 5px solid #ecf0f1; 
+	background: #ecf0f1;
+	color: #97a8b2;
+	-webkit-transform: translateX(100%);
+	transform: translateX(100%);
+}
+
+.splitlayout.open-right {
+	background: #ecf0f1;
+}
+
+.page-left {
+	left: 0;
+	outline: 5px solid #b1e0fc; 
+	background: #bbe6ff;
+	color: #fff;
+	text-align: right;
+	-webkit-transform: translateX(-100%);
+	transform: translateX(-100%);
+}
+
+.splitlayout.open-left {
+	background: #ffffff;
+}
+
+/* Inner page content */
+.page-inner {
+	padding: 2em;
+}
+
+.page-inner section {
+	padding-bottom: 1em;
+}
+
+.page-inner h2 {
+	margin: 0 0 1em 0;
+	font-weight: bold;
+	font-size: 1.6em;
+}
+
+.page-inner p {
+	font-weight: 300;
+	font-size: 1em;
+    text-align: right;
+}
+
+/* All transitions */
+.side,
+.page {
+	-webkit-transition: -webkit-transform 0.6s;
+	transition: transform 0.6s;
+}
+
+.overlay {
+	-webkit-transition: opacity 0.6s, visibility 0.1s 0.6s;
+	transition: opacity 0.6s, visibility 0.1s 0.6s;
+}
+
+.intro-content {
+	-webkit-transition: -webkit-transform 0.6s, top 0.6s;
+	transition: transform 0.6s, top 0.6s;
+}
+
+.intro-content h1,
+.back {
+	-webkit-transition: opacity 0.3s;
+	transition: opacity 0.3s;
+}
+
+/* Open and close */
+
+.reset-layout .page,
+.splitlayout.open-right .page-left,
+.splitlayout.open-left .page-right,
+.splitlayout.close-right .page-left,
+.splitlayout.close-left .page-right {
+	position: absolute;
+	overflow: hidden;
+	height: 100%;
+}
+
+.splitlayout.open-right .page-right,
+.splitlayout.open-left .page-left {
+	position: relative;
+	overflow: auto;
+	height: auto;
+}
+
+.open-right .side-left .overlay,
+.open-left .side-right .overlay {
+	visibility: visible;
+	opacity: 1;
+	-webkit-transition: opacity 0.6s;
+	transition: opacity 0.6s;
+}
+
+/* Right side open */
+.open-right .side-left {
+	-webkit-transform: translateX(-60%);
+	transform: translateX(-60%);
+}
+
+.open-right .side-right {
+	z-index: 200;
+	-webkit-transform: translateX(-150%);
+	transform: translateX(-150%);
+}
+
+.close-right .side-right {
+	z-index: 200;
+}
+
+.open-right .side-right .intro-content {
+	-webkit-transform: translateY(-50%) translateX(0%) scale(0.6);
+	transform: translateY(-50%) translateX(0%) scale(0.6);
+}
+
+.open-right .page-right {
+	-webkit-transform: translateX(0%);
+	transform: translateX(0%);
+}
+
+/* Left side open */
+.open-left .side-right {
+	-webkit-transform: translateX(60%);
+	transform: translateX(60%);
+}
+
+.open-left .side-left {
+	z-index: 200;
+	-webkit-transform: translateX(150%);
+	transform: translateX(150%);
+}
+
+.close-left .side-left {
+	z-index: 200;
+}
+
+.open-left .side-left .intro-content {
+	-webkit-transform: translateY(-50%) translateX(-100%) scale(0.6);
+	transform: translateY(-50%) translateX(-100%) scale(0.6);
+}
+
+.open-left .codropsheader {
+	opacity: 0;
+	visibility: hidden;
+	-webkit-transition: opacity 0.3s, visibility 0.1s 0.3s;
+	transition: opacity 0.3s, visibility 0.1s 0.3s;
+}
+
+.open-left .page-left {
+	-webkit-transform: translateX(0%);
+	transform: translateX(0%);
+}
+
+/* Media Queries */
+@media screen and (max-width: 83em) {
+	.intro-content { font-size: 60%; }
+}
+
+@media screen and (max-width: 58em) {
+	body { font-size: 90%; }
+}
+
+@media screen and (max-width: 49.4375em) {
+	.open-right .side-right {
+		-webkit-transform: translateX(-175%);
+		transform: translateX(-175%);
+	}
+
+	.open-right .side-left {
+		-webkit-transform: translateX(-100%);
+		transform: translateX(-100%);
+	}
+
+	.open-left .side-right {
+		-webkit-transform: translateX(100%);
+		transform: translateX(100%);
+	}
+
+	.open-left .side-left {
+		-webkit-transform: translateX(175%);
+		transform: translateX(175%);
+	}
+
+	.page {
+		width: 100%;
+	}
+
+	.page-right {
+		left: 0;
+		padding-left: 15%;
+	}
+
+	.page-left {
+		padding-right: 15%;
+	}
+
+	.intro-content {
+		width: 100%;
+	}
+
+	.open-right .side-right .intro-content {
+		top: 100%;
+		-webkit-transform: translateY(-150px) translateX(-12.5%) scale(0.5);
+		transform: translateY(-150px) translateX(-12.5%) scale(0.5);
+	}
+
+	.open-left .side-left .intro-content {
+		top: 100%;
+		-webkit-transform: translateY(-150px) translateX(-87.5%) scale(0.5);
+		transform: translateY(-150px) translateX(-87.5%) scale(0.5);
+	}
+
+	.open-right .intro-content h1,
+	.open-left .intro-content h1 {
+		opacity: 0;
+	}
+
+	.back-left {
+		left: 6.25%;
+	}
+
+	.back-right {
+		right: 6.25%;
+	}
+}
+
+@media screen and (max-width: 42.5em) {
+	body { font-size: 80%; }
+	.intro-content { font-size: 50%; }
+}
+
+@media screen and (max-height: 41.125em) {
+	.intro-content {
+		-webkit-transform: translateY(-25%) translateX(-50%);
+		transform: translateY(-25%) translateX(-50%);
+	}
+}
+
+@media screen and (max-width: 39.375em) {
+	.intro-content .profile { -webkit-transform: scale(0.5); transform: scale(0.5); }
+}
+
+@media screen and (max-width: 320px) {
+	body { font-size: 70%; }
+}
+    
+    
+</style>
+</head>
+<body>
+<div class="container">
+	<div id="splitlayout" class="splitlayout">
+		<div class="intro">
+			<div class="side side-left">						
+				<div class="intro-content">
+					<div class="profile"><img src="bigstock-education-elementary-school-98486030-300x300.jpg" alt="profile1"></div>
+					<br><br>
+					<h1><span>studnt</span><span>click to show </span></h1>
+				</div>
+				<div class="overlay"></div>
+			</div>
+			<div class="side side-right">
+				<div class="intro-content">
+					<div class="profile"><img src="bigstock-arabic-kids-in-the-school-cla-26666075-300x300.jpg" alt="profile2"></div>
+					<br><br>
+					<h1><span>teacher</span><span>click to show</span></h1>
+                    
+
+				</div>
+				<div class="overlay"></div>
+			</div>
+		</div><!-- /intro -->
+		<div class="page page-right">
+			<div class="page-inner">
+				<section>
+
+
+
+
+
+
+                    <div class="wrapper">
+                        <div class="title">Our teacher section</div>
+                        <div class="team">
+                          <div class="team_member">
+                            <img src="teacher_1.png" alt="team_member_image">
+                            <h3>Paul Doe</h3>
+                            <div class="btn_grp">
+                              <a href="#">contact </a>
+                              <a href="#">follow</a>
+                            </div>
+                          </div>
+                          <div class="team_member">
+                            <img src="teacher_2.png" alt="team_member_image">
+                            <h3>Rosie Meg</h3>
+                            
+                         
+                            <div class="btn_grp">
+                              <a href="#">contact </a>
+                              <a href="#">follow</a>
+                            </div>
+                          </div>
+                          <div class="team_member">
+                            <img src="teacher_3.png" alt="team_member_image">
+                            <h3>Alex Wood</h3>
+                           
+                            
+                            <div class="btn_grp">
+                              <a href="#">contact </a>
+                              <a href="#">follow</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <style>
+                          @import url("https://fonts.googleapis.com/css?family=Cute+Font|Open+Sans&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  background: #f4f4f4;
+}
+
+.wrapper {
+  margin-top: 50px;
+}
+
+.wrapper .title {
+  
+  width: 100%;
+  padding: 30px;
+  margin: 0 auto 30px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+  text-align: center;
+  
+  text-transform: uppercase;
+  font-family: "Cute Font", cursive;
+  color: #5e99bb;
+}
+
+.wrapper .team {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+}
+
+.wrapper .team .team_member {
+  width: 325px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07);
+  padding: 25px;
+}
+
+.wrapper .team .team_member img {
+  width: 80px;
+}
+
+.wrapper .team .team_member h3 {
+  color: #444;
+}
+
+.wrapper .team .team_member span {
+  font-size: 12px;
+  color: #999;
+}
+
+.wrapper .team .team_member p {
+  margin: 15px 0;
+}
+
+.wrapper .team .team_member .btn_grp {
+  display: flex;
+}
+
+.wrapper .team .team_member .btn_grp a {
+  background: #ddd;
+  display: block;
+  width: 125px;
+  margin: 0 10px;
+  padding: 10px;
+  border-radius: 6px;
+  color: #444;
+  text-transform: capitalize;
+  transition: all 0.3s ease;
+}
+
+.wrapper .team .team_member .btn_grp a:first-child:hover {
+  background: #497086;
+  color: #fff;
+}
+
+.wrapper .team .team_member .btn_grp a:last-child:hover {
+  background: #3a8bbb;
+  color: #fff;
+}
+                      </style>
+                      
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                </section>						
+			</div><!-- /page-inner -->
+		</div><!-- /page-right -->
+		<div class="page page-left">
+			<div class="page-inner">
+
+				<section>
+
+                
+                    <body>
+                        <div class="modal">
+                            <img src="" alt="">
+                            <div class="close"></div>
+                        </div>
+                        
+                        <div class="container">
+                            <div class="card">
+                                <div class="header">
+                                    <div class="hamburger-menu">
+                                        <div class="center"></div>
+                                    </div>
+                                    <a href="#" class="mail">
+                                        <i class="far fa-envelope"></i>
+                                    </a>
+                                    <div class="main">
+                                        <div class="image">
+                                            <div class="hover">
+                                                <i class="fas fa-camera fa-2x"></i>
+                                            </div>
+                                        </div>
+                                        <h3 class="name">student</h3>
+                                        <h3 class="sub-name">@S_student</h3>
+                                    </div>
+                                </div>
+                    
+                                <div class="content">
+                                    <div class="left">
+                                        <div class="about-container">
+                                            <h3 class="title">About</h3>
+                                            <p class="text">A high school student studying at Ahsan Bourefaa School.</p>
+                                        </div>
+                                        <div class="icons-container">
+                                            <a href="#" class="icon">
+                                                <i class="fab fa-facebook"></i>
+                                            </a>
+                                            <a href="#" class="icon">
+                                                <i class="fab fa-instagram"></i>
+                                            </a>
+                                            <a href="#" class="icon">
+                                                <i class="fab fa-google-plus-g"></i>
+                                            </a>
+                                            <a href="#" class="icon">
+                                                <i class="fab fa-twitter"></i>
+                                            </a>
+                                        </div>
+                                        <div class="buttons-wrap">
+                                            <div class="follow-wrap">
+                                                <a href="#" class="follow">Follow</a>
+                                            </div>
+                                            
+
+                                        </div>
+                                    </div>
+                    
+                                    <div class="right">
+                                        <div>
+                                            <h3 class="number">5K</h3>
+                                            <h3 class="number-title">viewers</h3>
+                                        </div>
+                                        <div>
+                                            <h3 class="number">2.4K</h3>
+                                            <h3 class="number-title">Following</h3>
+                                        </div>
+                                        <div>
+                                            <h3 class="number">4.7K</h3>
+                                            <h3 class="number-title">Followers</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </body>
+
+
+                    <style>
+
+.container{
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.card{
+    position: relative;
+    width: 400px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 5px 15px 1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.card:before{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 270px;
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to top, #00f2fe, #4facfe);
+    clip-path: circle(400px at 50% -48.5%);
+}
+
+.header{
+    position: relative;
+    height: 265px;
+}
+
+.mail{
+    position: absolute;
+    top: 1rem;
+    right: 2rem;
+    font-size: 1.5rem;
+    color: #fff;
+    opacity: .8;
+    transition: .3s;
+    z-index: 3;
+    text-decoration: none;
+}
+
+.mail:hover{
+    opacity: 1;
+}
+
+.hamburger-menu{
+    position: absolute;
+    width: 21px;
+    height: 16px;
+    top: 1.4rem;
+    left: 1.9rem;
+    z-index: 3;
+    cursor: pointer;
+    transition: .3s;
+    opacity: .8;
+}
+
+.hamburger-menu:hover{
+    opacity: 1;
+}
+
+.hamburger-menu .center{
+    position: absolute;
+    height: 2px;
+    width: 70%;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #fff;
+    border-radius: 1px;
+}
+
+.hamburger-menu:before, .hamburger-menu:after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    border-radius: 1px;
+    background-color: #fff;
+}
+
+.hamburger-menu:before{
+    top: 0;
+}
+
+.hamburger-menu:after{
+    bottom: 0;
+}
+
+.main{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.main .image{
+    position: relative;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    background: url('img/profile.jpg') no-repeat center / cover;
+    border: 4px solid #00d8fe;
+    margin-bottom: 2px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.image .hover{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(79, 172, 254, .7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    transition: .5s;
+    opacity: 0;
+}
+
+.image:hover .hover{
+    opacity: 1;
+}
+
+.hover.active{
+    opacity: 1;
+}
+
+.name{
+    font-size: 1.2rem;
+    color: #fff;
+    font-weight: 500;
+    line-height: 1;
+    margin: 5px 0;
+}
+
+.sub-name{
+    font-family: 'Cutive Mono', monospace;
+    font-size: 1.2rem;
+    opacity: .8;
+    color: #fff;
+}
+
+.content{
+    display: flex;
+    padding: 1.7rem 2.5rem 2.6rem 2.5rem;
+}
+
+.right{
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-left: 2.1rem;
+}
+
+.number{
+    font-size: 2.1rem;
+    font-weight: 200;
+    color: #333;
+    line-height: 1.2;
+}
+
+.number-title{
+    font-size: .55rem;
+    color: #666;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.title{
+    position: relative;
+    color: #555;
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 0 0 3px 0;
+    margin-bottom: .9rem;
+    display: inline-block;
+}
+
+.title:after{
+    content: '';
+    position: absolute;
+    height: 3px;
+    width: 50%;
+    background-color: #555;
+    bottom: 0;
+    left: 0;
+}
+
+.text{
+    color: #666;
+    font-weight: 300;
+    line-height: 1.7;
+}
+
+.icons-container{
+    padding: 1rem 0;
+}
+
+.icon{
+    color: #c4c4c4;
+    font-size: 1.3rem;
+    text-decoration: none;
+    margin-right: 8px;
+    transition: .3s;
+}
+
+.icon:hover{
+    color: #4facfe;
+}
+
+.buttons-wrap{
+    display: flex;
+    margin-top: 5px;
+}
+
+.follow-wrap, .share-wrap{
+    flex: 4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: .5s;
+}
+
+.follow-wrap:hover, .share-wrap:hover{
+    flex: 5;
+}
+
+.follow{
+    padding: 9.6px 0;
+    width: 100%;
+    background: linear-gradient(to right, #4facfe 0%, #00f2fe 140%);
+    color: #fff;
+    text-align: center;
+    text-decoration: none;
+    font-size: .7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    border-radius: 18.1px;
+    margin-right: 3px;
+}
+
+.share{
+    padding: 7.6px 0;
+    width: 100%;
+    border: 2px solid #4facfe;
+    color: #4facfe;
+    text-decoration: none;
+    text-align: center;
+    font-size: .7rem;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-left: 3px;
+    border-radius: 18.1px;
+}
+
+.modal{
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: -1;
+    opacity: 0;
+    transition: .5s;
+}
+
+.modal img{
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(.3);
+    max-width: 100%;
+    max-height: 100%;
+    transition: .5s;
+}
+
+.modal.show{
+    opacity: 1;
+    z-index: 99;
+}
+
+.modal.show img{
+    top: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.close{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.close:hover{
+    opacity: .5;
+}
+
+.close:before, .close:after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    border-radius: 1.5px;
+    top: 50%;
+    left: 50%;
+    background-color: #fff;
+}
+
+.close:before{
+    transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close:after{
+    transform: translate(-50%, -50%) rotate(135deg);
+}
+
+@media (max-width: 410px){
+    .content{
+        flex-direction: column;
+    }
+
+    .right{
+        flex-direction: row;
+        text-align: center;
+        justify-content: space-around;
+        align-items: center;
+        margin: 0;
+    }
+}
+
+@media (max-width: 370px){
+    .header{
+        height: 230px;
+    }
+
+    .card:before{
+        clip-path: circle(400px at 50% -74.5%);
+        height: 230px;
+    }
+
+    .hamburger-menu{
+        width: 16px;
+        height: 12px;
+        top: 1.1rem;
+        left: 1.5rem;
+    }
+
+    .mail{
+        font-size: 1.1rem;
+        top: .75rem;
+        right: 1.5rem;
+    }
+
+    .main .image{
+        width: 90px;
+        height: 90px;
+        border-width: 3px;
+    }
+
+    .name, .sub-name{
+        font-size: 1rem;
+    }
+
+    .content{
+        padding: 1.2rem 1.8rem 1.8rem 1.8rem;
+    }
+
+    .number{
+        font-size: 1.8rem;
+    }
+
+    .number-title{
+        font-size: .4rem;
+    }
+
+    .right{
+        padding-top: 1rem;
+    }
+
+    .title{
+        font-size: .9rem;
+        margin-bottom: .5rem;
+    }
+
+    .text{
+        font-size: .8rem;
+    }
+
+    .icons-container{
+        padding: .5rem 0;
+    }
+
+    .icon{
+        font-size: 1.1rem;
+    }
+
+    .follow{
+        padding: 7.6px 0;
+        border-radius: 14.6px;
+        font-size: .6rem;
+    }
+
+    .share{
+        padding: 5.6px 0;
+        border-radius: 14.6px;
+        font-size: .6rem;
+    }
+}
+
+
+
+
+
+
+                    </style>
+                    
+                    <script>
+
+const image = document.querySelector('.image');
+const hover = document.querySelector('.hover');
+const modal = document.querySelector('.modal');
+const close = document.querySelector('.close');
+
+function show(){
+    hover.classList.add('active');
+    modal.classList.add('show');
+}
+
+function hide(){
+    hover.classList.remove('active');
+    modal.classList.remove('show');
+}
+
+image.addEventListener('click', show);
+close.addEventListener('click', hide);
+                    </script>
+
+
+<div class="container-out">
+    <div class="container-in">
+    <div class="search-container">
+        <div class="search-engine">
+        
+        <input
+            type="input"
+            id="search-input"
+            autocomplete="off"
+            placeholder="click to Search"
+        />
+        </div>
+        <div id="search-results"></div>
+        <div id="search-data"></div>
+    </div>
+    </div>
+</div>
+
+<style>
+
+.container-out {
+font-family: "Fira Sans", sans-serif;
+
+}
+
+.container-in {
+width: 80%;
+margin: 0 auto;
+}
+
+.search-container {
+position: relative;
+max-width: 300px;
+margin: 0 auto;
+text-align: center;
+
+}
+
+.search-title {
+margin-top: 0;
+margin-top:100px;
+color: #1ca0b8;
+}
+
+#search-input {
+width: 90%;
+padding: 12px;
+border-radius: 4px;
+border: 2px solid #1ca0b8;
+font-size: 15px;
+margin-bottom: 10%;
+}
+
+#search-input:focus {
+outline: none;
+}
+
+#search-results {
+position: absolute;
+z-index: 10;
+margin: 1px auto;
+background: #1ca0b8;
+width: 90%;
+text-align: left;
+border-radius: 4px;
+border: 2px solid #1ca0b8;
+display: none;
+}
+.search-item {
+color: white;
+cursor: pointer;
+}
+.search-item p {
+margin: 0;
+padding: 10px;
+}
+.search-item:hover {
+background: #2cc7e2;
+}
+#search-data {
+margin-top: 10px;
+color: #1ca0b8;
+}
+#search-data p {
+margin: 0;
+padding: 6px;
+font-size: 16px;
+}
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                 
+
+
+
+
+
+
+
+
+                    
+
+
+
+
+
+
+
+
+
+
+
+					
+			</div><!-- /page-inner -->
+		</div><!-- /page-left -->
+		<a href="#" class="back back-right" title="back to intro">&rarr;</a>
+		<a href="#" class="back back-left" title="back to intro">&larr;</a>
+	</div><!-- /splitlayout -->
+</div><!-- /container -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $(".side-left .intro-content").click(function(){
+    	$(".splitlayout").addClass("open-left");
+    	$(".splitlayout").removeClass("close-right reset-layout");
+    });
+
+    $(".back-right").click(function(){
+    	$(".splitlayout").removeClass("open-left");
+    	$(".splitlayout").addClass("close-left reset-layout");
+    });
+
+    $(".side-right .intro-content").click(function(){
+    	$(".splitlayout").addClass("open-right");
+    	$(".splitlayout").removeClass("close-left reset-layout");
+    });
+
+    $(".back-left").click(function(){
+    	$(".splitlayout").removeClass("open-right");
+    	$(".splitlayout").addClass("close-right reset-layout");
+    });
+});
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
